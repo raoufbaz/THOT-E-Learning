@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Database1" Class="niveauEducationDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Database1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.niveauEducation" Member="niveauEducations">
+    <Type Name="niveauEducation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nom" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.credentials" Member="credentials">
+    <Type Name="credential">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="firsttime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="credential_EleveCour" Member="EleveCours" ThisKey="Id" OtherKey="ideleve" Type="EleveCour" />
+      <Association Name="Inscription_credential" Member="Inscription" ThisKey="email" OtherKey="email" Type="Inscription" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Inscription" Member="Inscriptions">
+    <Type Name="Inscription">
+      <Column Name="nom" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="education" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Inscription_credential" Member="credentials" ThisKey="email" OtherKey="email" Type="credential" />
+    </Type>
+  </Table>
+  <Table Name="dbo.profs" Member="profs">
+    <Type Name="prof">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="prof_Cour" Member="Cours" ThisKey="Id" OtherKey="idprof" Type="Cour" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cours" Member="Cours">
+    <Type Name="Cour">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idprof" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="titre" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="chapitres" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="date" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="niveaueducation" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="image" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Association Name="Cour_EleveCour" Member="EleveCours" ThisKey="Id" OtherKey="idcours" Type="EleveCour" />
+      <Association Name="prof_Cour" Member="prof" ThisKey="idprof" OtherKey="Id" Type="prof" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EleveCours" Member="EleveCours">
+    <Type Name="EleveCour">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ideleve" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idcours" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Cour_EleveCour" Member="Cour" ThisKey="idcours" OtherKey="Id" Type="Cour" IsForeignKey="true" />
+      <Association Name="credential_EleveCour" Member="credential" ThisKey="ideleve" OtherKey="Id" Type="credential" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
